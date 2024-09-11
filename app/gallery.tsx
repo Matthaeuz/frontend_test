@@ -24,7 +24,7 @@ const Gallery = ({ users }: GalleryProps) => {
   const handleModalOpen = (id: number) => {
     const user = usersList.find((item) => item.id === id) || null;
 
-    if(user) {
+    if (user) {
       setSelectedUser(user);
       setIsModalOpen(true);
     }
@@ -93,13 +93,13 @@ const Gallery = ({ users }: GalleryProps) => {
                   </div>
                   <div className="field">
                     <FaLocationDot className="icon" />
-                    <div className="data">{`${selectedUser.address.street}, ${selectedUser.address.suite}, ${selectedUser.address.city}`}</div>
+                    <div className="value">{`${selectedUser.address.street}, ${selectedUser.address.suite}, ${selectedUser.address.city}`}</div>
                   </div>
                   <div className="field">
                     <FaPhone className="icon" />
                     <div className="value">{selectedUser.phone}</div>
                   </div>
-                  <div className="fields">
+                  <div className="field">
                     <FaEnvelope className="icon" />
                     <div className="value">{selectedUser.email}</div>
                   </div>

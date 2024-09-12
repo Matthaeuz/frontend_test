@@ -1,14 +1,25 @@
 .user-gallery {
   width: 100%;
+  min-width: fit-content;
 
   > .items {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto;
     grid-gap: 16px;
 
-    @media screen and (max-width: 480px) {
+    // One column for mobile
+    @media screen and (max-width: 700px) {
       grid-template-columns: 1fr;
+    }
+
+    // Two columns for tablet
+    @media screen and (min-width: 701px) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    // Three columns for desktop
+    @media screen and (min-width: 1024px) {
+      grid-template-columns: 1fr 1fr 1fr;
     }
   }
 

@@ -7,6 +7,8 @@
   border-radius: 4px;
   background-color: #f4f5f7;
   transition: background 0.15s ease-out;
+  max-width: 100%;
+  min-width: 240px;
 
   &:hover {
     background-color: #dfe1e6;
@@ -19,7 +21,7 @@
   }
 
   > .info {
-    flex: 2 0 66%;
+    flex: 1;
     display: flex;
     justify-content: center;
     align-content: center;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Avatar from "boring-avatars";
 import {
   FaRegCircleXmark,
@@ -22,6 +22,56 @@ const Gallery = ({ users }: GalleryProps) => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // States for storing the sorting field and direction
+  const [sortField, setSortField] = useState<string | null>(null);
+  const [sortDirection, setSortDirection] = useState<string | null>(null);
+
+  const handleSortChange = (field: string, direction: string) => {
+    setSortField(field);
+    setSortDirection(direction);
+  };
+
+  // Helper function to access nested fields
+  const getNestedValue = (obj: any, path: string) => {
+    return path.split('.').reduce((value, key) => value?.[key], obj);
+  };
+
+  useEffect(() => {
+    if (sortField && sortDirection) {
+      const sortedUsers = [...users].sort((a, b) => {
+        let aValue, bValue;
+
+        // Sort by nested fields depending on the sortField value
+        switch (sortField) {
+          case 'name':
+            aValue = a.name;
+            bValue = b.name;
+            break;
+          case 'company':
+            aValue = getNestedValue(a, 'company.name');
+            bValue = getNestedValue(b, 'company.name');
+            break;
+          case 'email':
+            aValue = a.email;
+            bValue = b.email;
+            break;
+          default:
+            return 0;
+        }
+
+        // Handle sorting direction
+        if (aValue < bValue) {
+          return sortDirection === 'ascending' ? -1 : 1;
+        } else if (aValue > bValue) {
+          return sortDirection === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      });
+
+      setUsersList(sortedUsers);
+    }
+  }, [sortField, sortDirection, users]);
+
   const handleModalOpen = (id: number) => {
     const user = usersList.find((item) => item.id === id) || null;
 
@@ -40,7 +90,7 @@ const Gallery = ({ users }: GalleryProps) => {
     <div className="user-gallery">
       <div className="heading">
         <h1 className="title">Users</h1>
-        <Controls />
+        <Controls onSortChange={handleSortChange} />
       </div>
       <div className="items">
         {usersList.map((user, index) => (
